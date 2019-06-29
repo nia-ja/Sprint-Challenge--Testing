@@ -11,6 +11,11 @@ describe('server.js', () => {
 });
 
 describe('GET /', () => {
+    // cleanup for db
+    afterEach(async () => {
+        await db('games').truncate();
+    });
+
     it('should return 200', async () => {
         const res = await request(server).get('/');
         expect(res.status).toBe(200);
@@ -45,6 +50,7 @@ describe('GET /games', () => {
     });
 
     it('should return all games in db', async () => {
+        // await db('games').truncate();
         const games = [
             {
                 id: 1,
