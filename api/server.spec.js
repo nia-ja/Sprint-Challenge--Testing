@@ -33,6 +33,11 @@ describe('GET /games', () => {
         await db('games').truncate();
     });
 
+    it('should return 200', async () => {
+        const res = await request(server).get('/games');
+        expect(res.status).toBe(200);
+    });
+
     it('should return games', async () => {
         const res = await request(server).get('/games');
         expect(res.status).toBe(200);
