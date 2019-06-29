@@ -26,3 +26,33 @@ describe('GET /', () => {
         expect(res.body).toEqual({ api: 'up and running!'});
     });
 });
+
+describe('GET /games', () => {
+    // cleanup for db
+    afterEach(async () => {
+        await db('games').truncate();
+    });
+
+    it('should return games', async () => {
+        const res = await request(server).get('/games');
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual([]); 
+    });
+
+    it('should return all games in db', async () => {
+        const games = [
+            {
+                id: 1,
+                title: "Pacman",
+                genre: "Arcade",
+                releaseYear: 1980
+            }
+        ];
+
+        await db('games').insert(games);
+
+        const res = await request(server).get('/games');
+        expect(res.status).toBe(200);
+        expect(res.body).toEqual(games);
+    });
+});
